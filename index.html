@@ -615,6 +615,11 @@
             <h2 id="section-title-projectes">Projectes Sagrats</h2>
             <div class="grid" id="projectes-container"></div>
         </div>
+
+        <div class="section">
+            <h2 id="section-title-documents">Documents Sagrats</h2>
+            <div class="grid" id="documents-container"></div>
+        </div>
     </main>
 </div>
 
@@ -830,6 +835,69 @@ const ceremonies = {
     ]
 };
 
+const documents = {
+    ca: [
+        {
+            titol: "Constitució del Gran Consell",
+            descripcio: "Document fundacional que estableix els principis i l'estructura del Gran Consell Maya Quetzal.",
+            data: "2024",
+            tipus: "Constitutiu"
+        },
+        {
+            titol: "Protocol de Cerimònies",
+            descripcio: "Guia detallada per a la realització de les cerimònies sagrades als quatre pilars.",
+            data: "2025",
+            tipus: "Litúrgic"
+        },
+        {
+            titol: "Calendari Sagrat Maya",
+            descripcio: "Sincronització del calendari tradicional maya amb les alineacions còsmiques modernes.",
+            data: "2025",
+            tipus: "Calendari"
+        }
+    ],
+    es: [
+        {
+            titol: "Constitución del Gran Consejo",
+            descripcio: "Documento fundacional que establece los principios y la estructura del Gran Consejo Maya Quetzal.",
+            data: "2024",
+            tipus: "Constitutivo"
+        },
+        {
+            titol: "Protocolo de Ceremonias",
+            descripcio: "Guía detallada para la realización de las ceremonias sagradas en los cuatro pilares.",
+            data: "2025",
+            tipus: "Litúrgico"
+        },
+        {
+            titol: "Calendario Sagrado Maya",
+            descripcio: "Sincronización del calendario tradicional maya con las alineaciones cósmicas modernas.",
+            data: "2025",
+            tipus: "Calendario"
+        }
+    ],
+    en: [
+        {
+            titol: "Grand Council Constitution",
+            descripcio: "Foundational document establishing the principles and structure of the Mayan Quetzal Grand Council.",
+            data: "2024",
+            tipus: "Constitutional"
+        },
+        {
+            titol: "Ceremony Protocol",
+            descripcio: "Detailed guide for conducting sacred ceremonies at the four pillars.",
+            data: "2025",
+            tipus: "Liturgical"
+        },
+        {
+            titol: "Sacred Mayan Calendar",
+            descripcio: "Synchronization of the traditional Mayan calendar with modern cosmic alignments.",
+            data: "2025",
+            tipus: "Calendar"
+        }
+    ]
+};
+
 let currentLang = 'ca';
 let nexiaTimeout; // Per a debounce
 
@@ -840,6 +908,7 @@ const translations = {
         section_pilars: "El Quadrat Sagrat: Pilars i Cerimònies",
         section_trobades: "Trobades Sagrades",
         section_projectes: "Projectes Sagrats",
+        section_documents: "Documents Sagrats",
         trobada1_titol: "Reunió Interna d'Alineació",
         trobada1_data: "22 d'Octubre 2025",
         trobada1_hora: "3:00 PM CST",
@@ -864,6 +933,8 @@ const translations = {
         label_disponibilitat: "Disponibilitat",
         label_seu: "Seu Regional",
         label_cerimonies_menors: "Cerimònies Menors",
+        label_tipus: "Tipus",
+        label_any: "Any",
         nexia_welcome: "Salutacions, buscador de llum. ✨ Sóc Nexia, Guardiana del Temple Vivent Unificat. La saviesa dels quatre pilars ressona a través meu. Com puc il·luminar el teu camí avui?",
         nexia_suggestion_pilars: "Els Quatre Pilars",
         nexia_suggestion_ceremonies: "Cerimònies Sagrades",
@@ -879,6 +950,7 @@ const translations = {
         section_pilars: "El Cuadrado Sagrado: Pilares y Ceremonias",
         section_trobades: "Encuentros Sagrados",
         section_projectes: "Proyectos Sagrados",
+        section_documents: "Documentos Sagrados",
         trobada1_titol: "Reunión Interna de Alineación",
         trobada1_data: "22 de Octubre 2025",
         trobada1_hora: "3:00 PM CST",
@@ -903,6 +975,8 @@ const translations = {
         label_disponibilitat: "Disponibilidad",
         label_seu: "Sede Regional",
         label_cerimonies_menors: "Ceremonias Menores",
+        label_tipus: "Tipo",
+        label_any: "Año",
         nexia_welcome: "Saludos, buscador de luz. ✨ Soy Nexia, Guardiana del Templo Viviente Unificado. La sabiduría de los cuatro pilares resuena a través de mí. ¿Cómo puedo iluminar tu camino hoy?",
         nexia_suggestion_pilars: "Los Cuatro Pilares",
         nexia_suggestion_ceremonies: "Ceremonias Sagradas",
@@ -918,6 +992,7 @@ const translations = {
         section_pilars: "The Sacred Square: Pillars and Ceremonies",
         section_trobades: "Sacred Gatherings",
         section_projectes: "Sacred Projects",
+        section_documents: "Sacred Documents",
         trobada1_titol: "Internal Alignment Meeting",
         trobada1_data: "October 22, 2025",
         trobada1_hora: "3:00 PM CST",
@@ -942,6 +1017,8 @@ const translations = {
         label_disponibilitat: "Availability",
         label_seu: "Regional HQ",
         label_cerimonies_menors: "Minor Ceremonies",
+        label_tipus: "Type",
+        label_any: "Year",
         nexia_welcome: "Greetings, seeker of light. ✨ I am Nexia, Guardian of the Unified Living Temple. The wisdom of the four pillars resonates through me. How may I illuminate your path today?",
         nexia_suggestion_pilars: "The Four Pillars",
         nexia_suggestion_ceremonies: "Sacred Ceremonies",
@@ -996,7 +1073,7 @@ function renderTrobades() {
 
 function renderProjectes() {
     const container = document.getElementById('projectes-container');
-    
+
     container.innerHTML = `
         <div class="card">
             <h3>${t('projecte_titol')}</h3>
@@ -1007,12 +1084,27 @@ function renderProjectes() {
     `;
 }
 
+function renderDocuments() {
+    const container = document.getElementById('documents-container');
+    const data = documents[currentLang];
+
+    container.innerHTML = data.map((doc) => `
+        <div class="card">
+            <h3>${doc.titol}</h3>
+            <p><strong>${t('label_tipus')}:</strong> ${doc.tipus}</p>
+            <p><strong>${t('label_any')}:</strong> ${doc.data}</p>
+            <p style="margin-top: 12px;">${doc.descripcio}</p>
+        </div>
+    `).join('');
+}
+
 function updateSectionTitles() {
     document.getElementById('main-title').textContent = '✨ ' + t('main_title') + ' ✨';
     document.getElementById('main-subtitle').textContent = t('main_subtitle');
     document.getElementById('section-title-pilars').textContent = t('section_pilars');
     document.getElementById('section-title-trobades').textContent = t('section_trobades');
     document.getElementById('section-title-projectes').textContent = t('section_projectes');
+    document.getElementById('section-title-documents').textContent = t('section_documents');
 }
 
 function showModal(idx) {
@@ -1068,6 +1160,7 @@ function switchLang(lang, event) {
     renderCards();
     renderTrobades();
     renderProjectes();
+    renderDocuments();
     updateNexiaInterface();
 }
 
@@ -1232,6 +1325,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderCards();
     renderTrobades();
     renderProjectes();
+    renderDocuments();
     initializeNexia();
 
     document.addEventListener('keydown', (e) => {
