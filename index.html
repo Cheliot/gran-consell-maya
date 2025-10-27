@@ -635,13 +635,13 @@
 
 <!-- Nexia - Assistent Virtual -->
 <button class="floating-button nexia-button" onclick="toggleNexia()" aria-label="Obrir assistent virtual Nexia">✨</button>
-<div class="nexia-chat" id="nexiaChat">
+<div class="nexia-chat" id="nexiaChat" onclick="if(event.target === this) closeNexia()">
     <div class="nexia-header">
         <div>
             <h3>✨ Nexia</h3>
             <p>Guardiana del Temple Vivent</p>
         </div>
-        <button class="nexia-close" onclick="toggleNexia()" aria-label="Tancar xat">✕</button>
+        <button class="nexia-close" onclick="closeNexia()" aria-label="Tancar xat">✕</button>
     </div>
     <div class="nexia-messages" id="nexiaMessages"></div>
     <div class="nexia-input-area">
@@ -1128,6 +1128,11 @@ function toggleNexia() {
     chat.classList.toggle('open');
 }
 
+function closeNexia() {
+    const chat = document.getElementById('nexiaChat');
+    chat.classList.remove('open');
+}
+
 function sendNexiaMessage() {
     const input = document.getElementById('nexiaInput');
     const message = input.value.trim();
@@ -1235,7 +1240,10 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeNexia();
 
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeModal();
+        if (e.key === 'Escape') {
+            closeModal();
+            closeNexia();
+        }
     });
 });
 </script>
