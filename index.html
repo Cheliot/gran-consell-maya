@@ -621,7 +621,7 @@
 <!-- Modal -->
 <div class="modal" id="modal" onclick="if(event.target === this) closeModal()">
     <div class="modal-content">
-        <button class="close" onclick="closeModal()" aria-label="Tancar modal">✕</button>
+        <button class="close" onclick="event.stopPropagation(); closeModal();" aria-label="Tancar modal">✕</button>
         <div id="modal-body"></div>
     </div>
 </div>
@@ -641,7 +641,7 @@
             <h3>✨ Nexia</h3>
             <p>Guardiana del Temple Vivent</p>
         </div>
-        <button class="nexia-close" onclick="toggleNexia()" aria-label="Tancar xat">✕</button>
+        <button class="nexia-close" onclick="event.stopPropagation(); toggleNexia();" aria-label="Tancar xat">✕</button>
     </div>
     <div class="nexia-messages" id="nexiaMessages"></div>
     <div class="nexia-input-area">
